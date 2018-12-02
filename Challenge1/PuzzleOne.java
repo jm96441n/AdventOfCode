@@ -2,9 +2,36 @@
 import java.io.*;
 
 public class PuzzleOne {
-  public static void main(String[] args) {
+  public int frequency = 0;
+  public String fileName;
+
+  public PuzzleOne(String fileName) {
+    this.setFileName(fileName);
+  }
+
+  private void setFileName(String name) {
+    this.fileName = name;
+  }
+
+  private String getFileName() {
+    return this.fileName;
+  }
+
+  private void setFrequency(int change, char operation) {
+    if(operation == '+') {
+      this.frequency += change;
+    } else {
+      this.frequency -= change;
+    }
+  }
+
+  private int getFrequency() {
+    return this.frequency;
+  }
+
+  public int findFrequency() {
     try { 
-      FileInputStream fstream = new FileInputStream("1_input.txt");
+      FileInputStream fstream = new FileInputStream(getFileName());
       DataInputStream in = new DataInputStream(fstream);
       BufferedReader reader = new BufferedReader(new InputStreamReader(in));
       String line;
@@ -12,19 +39,21 @@ public class PuzzleOne {
 
       while((line = reader.readLine()) != null) {
         int frequencyChange = Integer.parseInt(line.substring(1, line.length()));
-        if(line.charAt(0) == '+') {
-          frequency += frequencyChange;
-        } else {
-          frequency -= frequencyChange;
-        }
+        setFrequency(frequencyChange, line.charAt(0)); 
       }
       in.close();
-      System.out.println("Frequency: " + frequency);
-
     } catch (FileNotFoundException e) {
       System.err.println("Error: " + e.getMessage());
     } catch (IOException e) {
       System.err.println("Error: " + e.getMessage());
     }
+    return getFrequency();
+  }
+
+
+  public static void main(String[] args) {
+    PuzzleOne puz = new PuzzleOne("1_input.txt");
+    int currentFrequency = puz.findFrequency();
+    System.out.println("CurrentFrequency: " + currentFrequency);
   }
 }
