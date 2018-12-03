@@ -36,12 +36,10 @@ class Puzzle3
   end
 
   def add_to_fabric(claim)
-    (1..claim.width).each do |i|
-      (1..claim.height).each do |j|
-        row = claim.vertical_offset + j
-        column = claim.horizontal_offset + i
-        fabric[row][column] = fabric[row][column].zero? ? 1 : 2
-      end
+    fabric_iterator(claim) do |i, j|
+      row = claim.vertical_offset + j
+      column = claim.horizontal_offset + i
+      fabric[row][column] = fabric[row][column].zero? ? 1 : 2
     end
   end
 
@@ -60,14 +58,20 @@ class Puzzle3
   end
 
   def no_overlaps?(claim)
-    (1..claim.width).each do |i|
-      (1..claim.height).each do |j|
-        row = claim.vertical_offset + j
-        column = claim.horizontal_offset + i
-        return false if fabric[row][column] == 2
-      end
+    fabric_iterator(claim) do |i, j|
+      row = claim.vertical_offset + j
+      column = claim.horizontal_offset + i
+      return false if fabric[row][column] == 2
     end
     true
+  end
+
+  def fabric_iterator(claim)
+    (1..claim.width).each do |i|
+      (1..claim.height).each do |j|
+        yield(i, j)
+      end
+    end
   end
 end
 
