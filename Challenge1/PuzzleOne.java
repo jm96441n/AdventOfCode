@@ -1,9 +1,13 @@
 // used this tutorial for reading file line by line https://www.roseindia.net/java/beginners/java-read-file-line-by-line.shtml
 import java.io.*;
+import java.util.ArrayList;
 
 public class PuzzleOne {
-  public int frequency = 0;
-  public String fileName;
+  private int frequency = 0;
+  private int dupeFrequency;
+  private String fileName;
+  private ArrayList<Integer> frequencies = new ArrayList<Integer>();
+  private ArrayList<String> readList = new ArrayList<String>();
 
   public PuzzleOne(String fileName) {
     this.setFileName(fileName);
@@ -29,31 +33,64 @@ public class PuzzleOne {
     return this.frequency;
   }
 
-  public int findFrequency() {
-    try { 
-      FileInputStream fstream = new FileInputStream(getFileName());
-      DataInputStream in = new DataInputStream(fstream);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-      String line;
-      int frequency = 0;
+  private ArrayList<Integer> getFrequencies() {
+    return this.frequencies;
+  }
 
+  public boolean hasNotSeenFrequency() {
+    Integer i = new Integer(getFrequency());
+    return frequencies.indexOf(i) == -1;
+  }
+
+  public boolean hasSeenFrequency() {
+    Integer i = new Integer(getFrequency());
+    return frequencies.indexOf(i) != -1;
+  }
+
+  public void parseLine(String line) {
+    int frequencyChange = Integer.parseInt(line.substring(1, line.length()));
+    setFrequency(frequencyChange, line.charAt(0));
+  }
+
+  public int findDuplicateFrequency() {
+    while(dupeFrequency == 0) {
+      findFrequency();
+    }
+    return dupeFrequency;
+  }
+
+  public int findFrequency() {
+    if(readList.isEmpty()) { parseFile(); }
+    for(String line : readList) {
+      parseLine(line);
+      if(hasSeenFrequency()) {
+         dupeFrequency = getFrequency();
+         break;
+       } else if(hasNotSeenFrequency()) {
+         frequencies.add(getFrequency());
+       }
+     }
+     return getFrequency();
+  }
+
+  public void parseFile() {
+    try {
+      FileInputStream fstream = new FileInputStream(getFileName());
+      BufferedReader reader = new BufferedReader(new InputStreamReader(fstream));
+      String line;
       while((line = reader.readLine()) != null) {
-        int frequencyChange = Integer.parseInt(line.substring(1, line.length()));
-        setFrequency(frequencyChange, line.charAt(0)); 
+        readList.add(line);
       }
-      in.close();
     } catch (FileNotFoundException e) {
       System.err.println("Error: " + e.getMessage());
     } catch (IOException e) {
       System.err.println("Error: " + e.getMessage());
     }
-    return getFrequency();
   }
-
 
   public static void main(String[] args) {
     PuzzleOne puz = new PuzzleOne("1_input.txt");
-    int currentFrequency = puz.findFrequency();
-    System.out.println("CurrentFrequency: " + currentFrequency);
+    int frequency = puz.findDuplicateFrequency();
+    System.out.println("DuplicateFrequency: " + frequency);
   }
 }
