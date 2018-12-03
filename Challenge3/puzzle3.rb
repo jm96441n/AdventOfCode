@@ -11,16 +11,10 @@ class Puzzle3
 
   def generate_fabric
     arr = []
-    i = 0;
-    while i < 1100
-      j = 0
+    (1..1100).each do |_|
       new_arr = []
-      while j < 1100
-        new_arr << 0
-        j += 1
-      end
+      (1..1100).each { |_| new_arr << 0 }
       arr << new_arr
-      i += 1
     end
     arr
   end
@@ -31,6 +25,8 @@ class Puzzle3
     end
     find_all_overlap
     puts overlap
+    claim = find_claim_with_no_overlaps
+    puts claim.claim_number
   end
 
   def parse_line(line)
@@ -53,6 +49,25 @@ class Puzzle3
     fabric.each do |row|
       @overlap += row.select { |inch| inch == 2 }.count
     end
+  end
+
+  def find_claim_with_no_overlaps
+    current_claim = ''
+    claims.each do |claim|
+      current_claim = claim
+      return current_claim if no_overlaps?(claim)
+    end
+  end
+
+  def no_overlaps?(claim)
+    (1..claim.width).each do |i|
+      (1..claim.height).each do |j|
+        row = claim.vertical_offset + j
+        column = claim.horizontal_offset + i
+        return false if fabric[row][column] == 2
+      end
+    end
+    true
   end
 end
 
