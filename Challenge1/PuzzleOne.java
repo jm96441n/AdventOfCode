@@ -1,12 +1,12 @@
 // used this tutorial for reading file line by line https://www.roseindia.net/java/beginners/java-read-file-line-by-line.shtml
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class PuzzleOne {
   private int frequency = 0;
   private int dupeFrequency;
   private String fileName;
-  private ArrayList<Integer> frequencies = new ArrayList<Integer>();
+  private HashMap<Integer, Integer> frequencies = new HashMap<Integer, Integer>();
   private ArrayList<String> readList = new ArrayList<String>();
 
   public PuzzleOne(String fileName) {
@@ -33,18 +33,16 @@ public class PuzzleOne {
     return this.frequency;
   }
 
-  private ArrayList<Integer> getFrequencies() {
+  private HashMap<Integer, Integer> getFrequencies() {
     return this.frequencies;
   }
 
   public boolean hasNotSeenFrequency() {
-    Integer i = new Integer(getFrequency());
-    return frequencies.indexOf(i) == -1;
+    return !frequencies.containsKey(getFrequency());
   }
 
   public boolean hasSeenFrequency() {
-    Integer i = new Integer(getFrequency());
-    return frequencies.indexOf(i) != -1;
+    return frequencies.containsKey(getFrequency());
   }
 
   public void parseLine(String line) {
@@ -67,7 +65,7 @@ public class PuzzleOne {
          dupeFrequency = getFrequency();
          break;
        } else if(hasNotSeenFrequency()) {
-         frequencies.add(getFrequency());
+         frequencies.put(getFrequency(), 1);
        }
      }
      return getFrequency();
