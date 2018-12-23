@@ -29,7 +29,7 @@ public class Claim {
   }
   
   private void setVerticalOffset(String offsets) {
-    String verticalString = offsets.split(",")[1].split(":")[0];
+    String verticalString = offsets.split(",")[1].replace(":","");
     int vertical = Integer.parseInt(verticalString);
     this.verticalOffset = vertical;
   }

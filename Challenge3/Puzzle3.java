@@ -42,13 +42,17 @@ public class Puzzle3 {
   private void addClaimsToFabric() {
     for(Claim claim : claims) {
       for(int i = 1; i <= claim.getHeight(); i++) {
-        int column = claim.getVerticalOffset() + i;
+        int row = claim.getVerticalOffset() + i;
         
         for(int j = 1; j <= claim.getWidth(); j++) {
-          int row = claim.getHorizontalOffset() + j;
+          int column = claim.getHorizontalOffset() + j;
           if(fabric[row][column] == 0) {
             fabric[row][column] = 1;
           } else {
+            if(fabric[row][column] == 1) {
+              int[] coords = { row, column };
+              visitedCoords.add(coords);
+            }
             fabric[row][column] = 2;
           }
         }
@@ -57,19 +61,41 @@ public class Puzzle3 {
   }
 
   private void findOverlap() {
-    for(int i = 0; i < Puzzle3.HEIGHT; i++) {
-      for(int j = 0; j < Puzzle3.WIDTH; j++) {
-        if(fabric[i][j] == 2) {
-          overlap += 1;
+    this.overlap = visitedCoords.size();
+  }
+
+  public String findNoOverlap() {
+    String claimId = "";
+    for(Claim claim : claims) {
+      boolean foundClaim = true;
+      for(int i = 1; i <= claim.getHeight(); i++) {
+        int row = claim.getVerticalOffset() + i;
+
+        for(int j = 1; j <= claim.getWidth(); j++) {
+          int column = claim.getHorizontalOffset() + j;
+          if(fabric[row][column] == 2) {
+            foundClaim = false;
+            break;
+          }
         }
+
+        if(foundClaim == false) { break; }
+      }
+
+      if(foundClaim == true) {
+        claimId = claim.getClaimNumber();
+        break;
       }
     }
-//    this.overlap = visitedCoords.size();
+    // will never hit this
+    return claimId;
   }
 
   public static void main(String[] args) {
     Puzzle3 puz = new Puzzle3(); 
     puz.findAllOverlap();
     System.out.println(puz.getOverlap());
+    String idNoOverlap = puz.findNoOverlap();
+    System.out.println(idNoOverlap);
   } 
 }
