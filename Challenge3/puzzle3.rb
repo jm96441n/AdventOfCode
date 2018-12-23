@@ -1,4 +1,5 @@
 require_relative './claim.rb'
+require 'set'
 
 class Puzzle3
   attr_accessor :claims, :fabric, :overlap
@@ -7,6 +8,7 @@ class Puzzle3
     @fabric = generate_fabric
     @overlap = 0
     @claims = []
+    @visited_coords = Set.new
   end
 
   def generate_fabric
@@ -39,14 +41,17 @@ class Puzzle3
     fabric_iterator(claim) do |i, j|
       row = claim.vertical_offset + j
       column = claim.horizontal_offset + i
-      fabric[row][column] = fabric[row][column].zero? ? 1 : 2
+      if fabric[row][column].zero?
+        fabric[row][column] = 1
+      else
+        @visited_coords.add([row, column])
+        fabric[row][column] = 2
+      end
     end
   end
 
   def find_all_overlap
-    fabric.each do |row|
-      @overlap += row.select { |inch| inch == 2 }.count
-    end
+    @overlap = @visited_coords.size
   end
 
   def find_claim_with_no_overlaps
