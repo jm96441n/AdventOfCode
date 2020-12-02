@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"AdventOfCode/file_utils"
 )
 
 type PasswordValidation struct {
@@ -18,20 +18,8 @@ type PasswordValidation struct {
 }
 
 func main() {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	rows := file_utils.OpenFileIntoSlice("input.txt")
 
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	rows := make([]string, 0)
-	for scanner.Scan() {
-		rows = append(rows, scanner.Text())
-	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
 	allSplits := buildSplits(rows)
 	partOneCount := partOne(allSplits)
 	partTwoCount := partTwo(allSplits)
