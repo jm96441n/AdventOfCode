@@ -9,7 +9,9 @@ import (
 )
 
 func main() {
-        sum := 0
+        frequency := 0
+        frequencies := make(map[int]int)
+        vals := make([]int, 0)
         file, err := os.Open("1_input.txt")
         if err != nil {
                 log.Fatal(err)
@@ -20,12 +22,29 @@ func main() {
 
         for scanner.Scan() {
                 num, _ := strconv.Atoi(scanner.Text())
-                sum += num
+                vals = append(vals, num)
         }
 
         if err := scanner.Err(); err != nil {
                 log.Fatal(err)
         }
-        fmt.Println(sum)
+
+        i := 0
+        valCount := len(vals)
+        var idx int
+        for {
+                idx = i % valCount
+                frequency += vals[idx]
+                if _, ok := frequencies[frequency]; ok {
+                        frequencies[frequency]++
+                        break
+                } else {
+                        frequencies[frequency] = 1
+                }
+                i++
+        }
+
+        fmt.Printf("%d\n", frequency)
+
 
 }
