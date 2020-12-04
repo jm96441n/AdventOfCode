@@ -7,7 +7,7 @@ import (
 )
 
 func OpenFileIntoSlice(fileName string) []string {
-	file, err := os.Open("input.txt")
+	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
