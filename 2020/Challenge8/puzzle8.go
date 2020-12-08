@@ -35,8 +35,8 @@ func partTwo(rows []string) int {
 	var (
 		terminated bool
 		accCounter int
+		prev_cmd   string
 	)
-	var prev_cmd string
 	for _, ins := range instructions {
 		prev_cmd = ins.cmd
 		switch ins.cmd {
@@ -44,6 +44,8 @@ func partTwo(rows []string) int {
 			ins.cmd = nop
 		case nop:
 			ins.cmd = jmp
+		default:
+			continue
 		}
 		terminated, accCounter = run(instructions, insMap)
 		if terminated {
@@ -58,7 +60,6 @@ func partTwo(rows []string) int {
 }
 
 func run(instructions []*instruction, insMap map[*instruction]int) (bool, int) {
-
 	accCounter := 0
 	i := 0
 	terminated := false
