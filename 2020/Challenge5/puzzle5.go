@@ -1,4 +1,4 @@
-package main
+package challenge5
 
 import (
 	"AdventOfCode/file_utils"
@@ -8,8 +8,8 @@ import (
 var front string = "F"
 var left string = "L"
 
-func main() {
-	rows := file_utils.OpenFileIntoSlice("input.txt")
+func Run() {
+	rows := file_utils.OpenFileIntoSlice("./challenge5/input.txt")
 	max := -1
 	ticketMap := make(map[int]bool)
 	ticketIDs := make([]int, 0)

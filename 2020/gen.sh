@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-directory="Challenge${1}"
+directory="challenge${1}"
 mkdir -p $directory
 
 files=(

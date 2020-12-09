@@ -1,4 +1,4 @@
-package main
+package challenge3
 
 import (
 	"AdventOfCode/file_utils"
@@ -11,8 +11,8 @@ var emptySpace string = "."
 var visitedEmpty string = "0"
 var visitedTree string = "X"
 
-func main() {
-	rows := file_utils.OpenFileIntoSlice("input.txt")
+func Run() {
+	rows := file_utils.OpenFileIntoSlice("./challenge3/input.txt")
 	splitRows := make([][]string, len(rows))
 	for idx, row := range rows {
 		splitRows[idx] = strings.Split(row, "")
