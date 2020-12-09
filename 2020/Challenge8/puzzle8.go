@@ -1,4 +1,4 @@
-package main
+package challenge8
 
 import (
 	"AdventOfCode/file_utils"
@@ -18,8 +18,8 @@ type instruction struct {
 	value int
 }
 
-func main() {
-	rows := file_utils.OpenFileIntoSlice("input.txt")
+func Run() {
+	rows := file_utils.OpenFileIntoSlice("./challenge8/input.txt")
 	fmt.Println(partOne(rows))
 	fmt.Println(partTwo(rows))
 }

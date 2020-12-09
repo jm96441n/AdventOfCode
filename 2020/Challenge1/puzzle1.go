@@ -1,4 +1,4 @@
-package main
+package challenge1
 
 import (
 	"bufio"
@@ -11,24 +11,29 @@ import (
 const year int = 2020
 
 func twoProductFromTwoSum(inputs []int, matcher int) (int, int, int) {
+
+	addendOne, addendTwo := TwoSum(inputs, matcher)
+	product := addendOne * addendTwo
+
+	return product, addendOne, addendTwo
+}
+
+func TwoSum(inputs []int, matcher int) (int, int) {
 	diffMap := make(map[int]bool)
 	var (
-		diff    int
-		other   int
-		product int
+		diff  int
+		other int
 	)
-
 	for _, rowNum := range inputs {
 		diff = matcher - rowNum
 		if _, ok := diffMap[diff]; ok {
 			other = rowNum
-			product = diff * rowNum
 			break
 		} else {
 			diffMap[rowNum] = true
 		}
 	}
-	return product, diff, other
+	return diff, other
 }
 
 func threeProductFromThreeSum(inputs []int) int {
@@ -46,8 +51,8 @@ func threeProductFromThreeSum(inputs []int) int {
 	return product
 }
 
-func main() {
-	file, err := os.Open("input.txt")
+func Run() {
+	file, err := os.Open("./challenge1/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

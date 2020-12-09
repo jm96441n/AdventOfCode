@@ -1,15 +1,15 @@
 package main
 
 import (
-	//challenge 	"AdventOfCode/challenge1"
-	//challenge 	"AdventOfCode/challenge2"
-	//challenge 	"AdventOfCode/challenge3"
-	//challenge 	"AdventOfCode/challenge4"
-	//challenge 	"AdventOfCode/challenge5"
-	//challenge 	"AdventOfCode/challenge6"
-	//challenge 	"AdventOfCode/challenge7"
-	//	challenge "AdventOfCode/challenge8"
-	challenge "AdventOfCode/challenge9"
+	//challenge "AdventOfCode/2020/challenge1"
+	//challenge "AdventOfCode/2020/challenge2"
+	//challenge "AdventOfCode/2020/challenge3"
+	//challenge "AdventOfCode/2020/challenge4"
+	//challenge "AdventOfCode/2020/challenge5"
+	//challenge 	"AdventOfCode/2020/challenge6"
+	//challenge "AdventOfCode/2020/challenge7"
+	//challenge "AdventOfCode/2020/challenge8"
+	challenge "AdventOfCode/2020/challenge9"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package main
+package puzzle2
 
 import (
 	"fmt"
@@ -17,8 +17,8 @@ type PasswordValidation struct {
 	password string
 }
 
-func main() {
-	rows := file_utils.OpenFileIntoSlice("input.txt")
+func Run() {
+	rows := file_utils.OpenFileIntoSlice("./challenge2/input.txt")
 
 	allSplits := buildSplits(rows)
 	partOneCount := partOne(allSplits)
