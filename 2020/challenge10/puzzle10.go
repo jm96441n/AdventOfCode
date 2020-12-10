@@ -35,8 +35,8 @@ func productOfOnesAndThrees(rows []int) int {
 	return (oneDiff * threeDiff)
 }
 
-func combinations(rows []int) uint64 {
-	sumMap := make(map[int]uint64)
+func combinations(rows []int) int {
+	sumMap := make(map[int]int)
 	sumMap[0] = 1
 	for _, row := range rows {
 		for i := 1; i < 4; i++ {
