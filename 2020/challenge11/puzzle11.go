@@ -22,9 +22,9 @@ type occupiedFn func(posFunc adjacentPositionFn, curPos position, rows [][]strin
 
 func Run() {
 	rows := file_utils.OpenFileIntoSlice("challenge11/input.txt")
-	splitRows := make([][]string, 0)
-	for _, row := range rows {
-		splitRows = append(splitRows, strings.Split(row, ""))
+	splitRows := make([][]string, len(rows))
+	for idx, row := range rows {
+		splitRows[idx] = strings.Split(row, "")
 	}
 	unOccupied := conwaysGameOfSeats(splitRows, isAdjacentOccupied, 4)
 	fmt.Println(unOccupied)
