@@ -17,6 +17,11 @@ type position struct {
 	col int
 }
 
+type changedPosition struct {
+	position
+	newVal string
+}
+
 type adjacentPositionFn func(pos position) position
 type occupiedFn func(posFunc adjacentPositionFn, curPos position, rows [][]string) bool
 
@@ -74,12 +79,9 @@ func runTheGame(inputs [][]string, occupiedChecker occupiedFn, countToEmpty int)
 		rows[idx] = append(make([]string, 0, len(row)), row...)
 	}
 
-	prevArrangment := make([][]string, len(rows))
 	for {
-		for idx, row := range rows {
-			prevArrangment[idx] = append(make([]string, 0, len(row)), row...)
-		}
-		for rowIdx, row := range prevArrangment {
+		changes := make([]changedPosition, 0)
+		for rowIdx, row := range rows {
 			for colIdx, seat := range row {
 				curPos := position{
 					row: rowIdx,
@@ -87,23 +89,26 @@ func runTheGame(inputs [][]string, occupiedChecker occupiedFn, countToEmpty int)
 				}
 				occupiedCount := 0
 				for _, fn := range adjPosFns {
-					if occupiedChecker(fn, curPos, prevArrangment) {
+					if occupiedChecker(fn, curPos, rows) {
 						occupiedCount++
 					}
 				}
 				if seat == empty && occupiedCount == 0 {
-					rows[rowIdx][colIdx] = taken
+					changes = append(changes, changedPosition{position: curPos, newVal: taken})
 				}
 
 				if seat == taken && occupiedCount >= countToEmpty {
-					rows[rowIdx][colIdx] = empty
+					changes = append(changes, changedPosition{position: curPos, newVal: empty})
 				}
 
 			}
 		}
-		matching := slicesDeepEqual(rows, prevArrangment)
-		if matching {
+
+		if len(changes) == 0 {
 			break
+		}
+		for _, pos := range changes {
+			rows[pos.row][pos.col] = pos.newVal
 		}
 
 	}
