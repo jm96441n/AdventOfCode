@@ -10,7 +10,8 @@ import (
 	//challenge "AdventOfCode/2020/challenge7"
 	//challenge "AdventOfCode/2020/challenge8"
 	//challenge "AdventOfCode/2020/challenge9"
-	challenge "AdventOfCode/2020/challenge10"
+	//challenge "AdventOfCode/2020/challenge10"
+	challenge "AdventOfCode/2020/challenge11"
 )
 
 func main() {
