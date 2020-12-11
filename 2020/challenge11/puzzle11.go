@@ -18,7 +18,6 @@ type position struct {
 }
 
 type adjacentPositionFn func(pos position) position
-type gameExecutor func(inputs [][]string, occupiedChecker occupiedFn) [][]string
 type occupiedFn func(posFunc adjacentPositionFn, curPos position, rows [][]string) bool
 
 func Run() {
@@ -27,9 +26,9 @@ func Run() {
 	for _, row := range rows {
 		splitRows = append(splitRows, strings.Split(row, ""))
 	}
-	unOccupied := conwaysGameOfSeats(splitRows, partOneSeats, isOccupied)
+	unOccupied := conwaysGameOfSeats(splitRows, isAdjacentOccupied, 4)
 	fmt.Println(unOccupied)
-	ptTwoUnoccupied := conwaysGameOfSeats(splitRows, partTwoSeats, isNextOccupied)
+	ptTwoUnoccupied := conwaysGameOfSeats(splitRows, isFirstSeatInRowOccupied, 5)
 	fmt.Println(ptTwoUnoccupied)
 }
 
@@ -44,8 +43,8 @@ var adjPosFns = []adjacentPositionFn{
 	topLeftPosition,
 }
 
-func conwaysGameOfSeats(inputs [][]string, gameFn gameExecutor, occupiedChecker occupiedFn) int {
-	rows := gameFn(inputs, occupiedChecker)
+func conwaysGameOfSeats(inputs [][]string, occupiedChecker occupiedFn, countToEmpty int) int {
+	rows := runTheGame(inputs, occupiedChecker, countToEmpty)
 	occupiedSeatCount := 0
 	for _, row := range rows {
 		for _, seat := range row {
@@ -58,7 +57,7 @@ func conwaysGameOfSeats(inputs [][]string, gameFn gameExecutor, occupiedChecker 
 	return occupiedSeatCount
 }
 
-func partOneSeats(inputs [][]string, occupiedChecker occupiedFn) [][]string {
+func runTheGame(inputs [][]string, occupiedChecker occupiedFn, countToEmpty int) [][]string {
 	rows := make([][]string, len(inputs))
 	for idx, row := range inputs {
 		rows[idx] = append(make([]string, 0, len(row)), row...)
@@ -84,48 +83,8 @@ func partOneSeats(inputs [][]string, occupiedChecker occupiedFn) [][]string {
 				if seat == empty && occupiedCount == 0 {
 					rows[rowIdx][colIdx] = taken
 				}
-				if seat == taken && occupiedCount >= 4 {
-					rows[rowIdx][colIdx] = empty
-				}
 
-			}
-		}
-		matching := slicesDeepEqual(rows, prevArrangment)
-		if matching {
-			break
-		}
-
-	}
-	return rows
-}
-
-func partTwoSeats(inputs [][]string, occupiedChecker occupiedFn) [][]string {
-	rows := make([][]string, len(inputs))
-	for idx, row := range inputs {
-		rows[idx] = append(make([]string, 0, len(row)), row...)
-	}
-
-	prevArrangment := make([][]string, len(rows))
-	for {
-		for idx, row := range rows {
-			prevArrangment[idx] = append(make([]string, 0, len(row)), row...)
-		}
-		for rowIdx, row := range prevArrangment {
-			for colIdx, seat := range row {
-				curPos := position{
-					row: rowIdx,
-					col: colIdx,
-				}
-				occupiedCount := 0
-				for _, fn := range adjPosFns {
-					if occupiedChecker(fn, curPos, prevArrangment) {
-						occupiedCount++
-					}
-				}
-				if seat == empty && occupiedCount == 0 {
-					rows[rowIdx][colIdx] = taken
-				}
-				if seat == taken && occupiedCount >= 5 {
+				if seat == taken && occupiedCount >= countToEmpty {
 					rows[rowIdx][colIdx] = empty
 				}
 
@@ -151,7 +110,7 @@ func slicesDeepEqual(rows, prevArrangment [][]string) bool {
 	return matching
 }
 
-func isNextOccupied(posFunc adjacentPositionFn, curPos position, rows [][]string) bool {
+func isFirstSeatInRowOccupied(posFunc adjacentPositionFn, curPos position, rows [][]string) bool {
 	nextPos := posFunc(curPos)
 	if posOutsideRows(len(rows), len(rows[0]), nextPos) {
 		return false
@@ -164,10 +123,10 @@ func isNextOccupied(posFunc adjacentPositionFn, curPos position, rows [][]string
 		return false
 	}
 
-	return isNextOccupied(posFunc, nextPos, rows)
+	return isFirstSeatInRowOccupied(posFunc, nextPos, rows)
 }
 
-func isOccupied(posFunc adjacentPositionFn, curPos position, rows [][]string) bool {
+func isAdjacentOccupied(posFunc adjacentPositionFn, curPos position, rows [][]string) bool {
 	adjPos := posFunc(curPos)
 	if posOutsideRows(len(rows), len(rows[0]), adjPos) {
 		return false
