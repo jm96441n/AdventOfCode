@@ -26,10 +26,21 @@ func Run() {
 	for idx, row := range rows {
 		splitRows[idx] = strings.Split(row, "")
 	}
-	unOccupied := conwaysGameOfSeats(splitRows, isAdjacentOccupied, 4)
-	fmt.Println(unOccupied)
-	ptTwoUnoccupied := conwaysGameOfSeats(splitRows, isFirstSeatInRowOccupied, 5)
-	fmt.Println(ptTwoUnoccupied)
+	ptone := make(chan int, 1)
+	pttwo := make(chan int, 1)
+	go func() {
+		unOccupied := conwaysGameOfSeats(splitRows, isAdjacentOccupied, 4)
+		ptone <- unOccupied
+	}()
+	go func() {
+		unOccupied := conwaysGameOfSeats(splitRows, isFirstSeatInRowOccupied, 5)
+		pttwo <- unOccupied
+	}()
+
+	ptOneUn := <-ptone
+	ptTwoUn := <-pttwo
+	fmt.Println(ptOneUn)
+	fmt.Println(ptTwoUn)
 }
 
 var adjPosFns = []adjacentPositionFn{
