@@ -72,76 +72,62 @@ func abs(num int) int {
 }
 
 func runTheCourse(s *ship, actions []action) {
-	turnMap := buildTurnMap()
+	degreeMap := buildDegreeMap()
+	orientationMap := buildOrientationMap()
 	for _, a := range actions {
-		switch a.direction {
-		case NORTH:
-			s.vert += a.distance
-		case SOUTH:
-			s.vert -= a.distance
-		case EAST:
-			s.horz += a.distance
-		case WEST:
-			s.horz -= a.distance
-		case RIGHT:
-			s.orientation = turnMap[s.orientation][((-1) * (a.distance))]
-		case LEFT:
-			s.orientation = turnMap[s.orientation][a.distance]
-		case FORWARD:
-			switch s.orientation {
-			case NORTH:
-				s.vert += a.distance
-			case SOUTH:
-				s.vert -= a.distance
-			case EAST:
-				s.horz += a.distance
-			case WEST:
-				s.horz -= a.distance
-			}
-		default:
-			panic(fmt.Sprintf("UNKNOWN DIRECTION: %s", a.direction))
+		if a.direction == RIGHT || a.direction == LEFT {
+			s.orientation = getNewOrientation(s, a, orientationMap, degreeMap)
+		} else if a.direction == FORWARD {
+			moveDirection(s, s.orientation, a.distance)
+		} else {
+			moveDirection(s, a.direction, a.distance)
 		}
 	}
 }
 
-func buildTurnMap() map[string]map[int]string {
-	// assume that a left turn is positive, a right turn is negative
-	turnMap := make(map[string]map[int]string)
-	turnMap[EAST] = make(map[int]string)
-	turnMap[WEST] = make(map[int]string)
-	turnMap[SOUTH] = make(map[int]string)
-	turnMap[NORTH] = make(map[int]string)
+func moveDirection(s *ship, direction string, distance int) {
+	switch direction {
+	case NORTH:
+		s.vert += distance
+	case SOUTH:
+		s.vert -= distance
+	case EAST:
+		s.horz += distance
+	case WEST:
+		s.horz -= distance
+	}
+}
 
-	turnMap[EAST][90] = NORTH
-	turnMap[EAST][180] = WEST
-	turnMap[EAST][270] = SOUTH
+func getNewOrientation(s *ship, a action, oMap map[string]int, degreeMap map[int]string) string {
+	curDir := oMap[s.orientation]
+	if a.direction == RIGHT {
+		curDir += a.distance
+		for curDir >= 360 {
+			curDir -= 360
+		}
+	} else if a.direction == LEFT {
+		curDir -= a.distance
+		for curDir < 0 {
+			curDir += 360
+		}
+	}
+	return degreeMap[curDir]
+}
 
-	turnMap[EAST][-90] = SOUTH
-	turnMap[EAST][-180] = WEST
-	turnMap[EAST][-270] = NORTH
-
-	turnMap[WEST][90] = SOUTH
-	turnMap[WEST][180] = EAST
-	turnMap[WEST][270] = NORTH
-
-	turnMap[WEST][-180] = EAST
-	turnMap[WEST][-90] = NORTH
-	turnMap[WEST][-270] = SOUTH
-
-	turnMap[NORTH][90] = WEST
-	turnMap[NORTH][180] = SOUTH
-	turnMap[NORTH][270] = EAST
-
-	turnMap[NORTH][-90] = EAST
-	turnMap[NORTH][-180] = SOUTH
-	turnMap[NORTH][-270] = WEST
-
-	turnMap[SOUTH][90] = EAST
-	turnMap[SOUTH][180] = NORTH
-	turnMap[SOUTH][270] = WEST
-
-	turnMap[SOUTH][-90] = WEST
-	turnMap[SOUTH][-180] = NORTH
-	turnMap[SOUTH][-270] = EAST
+func buildDegreeMap() map[int]string {
+	turnMap := make(map[int]string)
+	turnMap[0] = NORTH
+	turnMap[90] = EAST
+	turnMap[180] = SOUTH
+	turnMap[270] = WEST
 	return turnMap
+}
+
+func buildOrientationMap() map[string]int {
+	oMap := make(map[string]int)
+	oMap[NORTH] = 0
+	oMap[EAST] = 90
+	oMap[SOUTH] = 180
+	oMap[WEST] = 270
+	return oMap
 }
