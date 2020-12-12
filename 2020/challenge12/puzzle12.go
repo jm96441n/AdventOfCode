@@ -18,6 +18,13 @@ type ship struct {
 	vert        int
 }
 
+type waypoint struct {
+	horz int
+	vert int
+}
+
+type courseRunner func(s *ship, actions []action)
+
 var (
 	EAST    = "E"
 	WEST    = "W"
@@ -31,8 +38,9 @@ var (
 func Run() {
 	rows := file_utils.OpenFileIntoSlice("challenge12/input.txt")
 	formattedRows := formatRows(rows)
-	md := calculateManhattanDistance(formattedRows)
-	fmt.Println(md)
+	for _, runner := range []courseRunner{runTheCoursePartOne, runTheCoursePartTwo} {
+		fmt.Println(calculateManhattanDistance(formattedRows, runner))
+	}
 }
 
 func formatRows(rows []string) []action {
@@ -58,7 +66,7 @@ func formatRows(rows []string) []action {
 	return formattedRows
 }
 
-func calculateManhattanDistance(actions []action) int {
+func calculateManhattanDistance(actions []action, runTheCourse courseRunner) int {
 	s := &ship{orientation: "E"}
 	runTheCourse(s, actions)
 	return abs(s.horz) + abs(s.vert)
@@ -71,7 +79,7 @@ func abs(num int) int {
 	return num
 }
 
-func runTheCourse(s *ship, actions []action) {
+func runTheCoursePartOne(s *ship, actions []action) {
 	degreeMap := buildDegreeMap()
 	orientationMap := buildOrientationMap()
 	for _, a := range actions {
@@ -130,4 +138,57 @@ func buildOrientationMap() map[string]int {
 	oMap[SOUTH] = 180
 	oMap[WEST] = 270
 	return oMap
+}
+
+func runTheCoursePartTwo(s *ship, actions []action) {
+	wp := waypoint{
+		horz: 10,
+		vert: 1,
+	}
+	for _, a := range actions {
+		if a.direction == RIGHT {
+			wp = rotateWaypoint(wp, (360 - a.distance))
+		} else if a.direction == LEFT {
+			wp = rotateWaypoint(wp, a.distance)
+		} else if a.direction == FORWARD {
+			s.vert += (a.distance * wp.vert)
+			s.horz += (a.distance * wp.horz)
+		} else {
+			wp = moveWaypoint(wp, a)
+		}
+	}
+}
+
+func rotateWaypoint(wp waypoint, rotation int) waypoint {
+	var movedWp waypoint
+	switch rotation {
+	case 90:
+		movedWp.horz = (-1) * wp.vert
+		movedWp.vert = wp.horz
+	case 180:
+		movedWp.horz = (-1) * wp.horz
+		movedWp.vert = (-1) * wp.vert
+	case 270:
+		movedWp.horz = wp.vert
+		movedWp.vert = (-1) * wp.horz
+	}
+	return movedWp
+}
+
+func moveWaypoint(wp waypoint, a action) waypoint {
+	movedWp := waypoint{
+		horz: wp.horz,
+		vert: wp.vert,
+	}
+	switch a.direction {
+	case NORTH:
+		movedWp.vert += a.distance
+	case SOUTH:
+		movedWp.vert -= a.distance
+	case EAST:
+		movedWp.horz += a.distance
+	case WEST:
+		movedWp.horz -= a.distance
+	}
+	return movedWp
 }
