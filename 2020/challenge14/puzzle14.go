@@ -112,7 +112,7 @@ func applyVariableMaskToRow(row, mask string) ([]int, int) {
 	}
 	binMemAddress := convertToBinary(memAddress, mask)
 	maskedBinMemAddress := applyVariableMask(binMemAddress, mask)
-	newBinMemAddresses := calcVariableMemVals(maskedBinMemAddress)
+	newBinMemAddresses := calcVariableMemAddresses(maskedBinMemAddress)
 	for _, newBinMemAddress := range newBinMemAddresses {
 		decAdd := convertToDecimal(newBinMemAddress)
 		newMemAddresses = append(newMemAddresses, decAdd)
@@ -130,7 +130,7 @@ func applyVariableMask(binMemVal, mask string) []rune {
 	return maskedBinMemVal
 }
 
-func calcVariableMemVals(memVal []rune) []string {
+func calcVariableMemAddresses(memVal []rune) []string {
 	stringifiedMem := string(memVal)
 	if !strings.Contains(stringifiedMem, "X") {
 		return []string{stringifiedMem}
@@ -148,8 +148,8 @@ func calcVariableMemVals(memVal []rune) []string {
 			break
 		}
 	}
-	mems = append(mems, calcVariableMemVals(mem1)...)
-	mems = append(mems, calcVariableMemVals(mem2)...)
+	mems = append(mems, calcVariableMemAddresses(mem1)...)
+	mems = append(mems, calcVariableMemAddresses(mem2)...)
 	return mems
 }
 
