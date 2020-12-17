@@ -9,6 +9,7 @@ import (
 	"AdventOfCode/2020/challenge14"
 	"AdventOfCode/2020/challenge15"
 	"AdventOfCode/2020/challenge16"
+	"AdventOfCode/2020/challenge17"
 
 	//"AdventOfCode/2020/challenge2"
 	"AdventOfCode/2020/challenge3"
@@ -56,5 +57,7 @@ func main() {
 		challenge15.Run()
 	case "16":
 		challenge16.Run()
+	case "17":
+		challenge17.Run()
 	}
 }
