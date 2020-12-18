@@ -11,3 +11,6 @@
 
 # Ignore files with extension `.class` & `.sm`
 *.class
+
+# ignore input files
+input.txt
