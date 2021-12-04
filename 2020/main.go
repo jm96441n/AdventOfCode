@@ -11,14 +11,11 @@ import (
 	"AdventOfCode/2020/challenge16"
 	"AdventOfCode/2020/challenge17"
 	"AdventOfCode/2020/challenge18"
-
-	//"AdventOfCode/2020/challenge2"
+	"AdventOfCode/2020/challenge19"
+	"AdventOfCode/2020/challenge2"
 	"AdventOfCode/2020/challenge3"
 	"AdventOfCode/2020/challenge4"
 	"AdventOfCode/2020/challenge5"
-
-	//"AdventOfCode/2020/challenge6"
-
 	"AdventOfCode/2020/challenge7"
 	"AdventOfCode/2020/challenge8"
 	"AdventOfCode/2020/challenge9"
@@ -30,8 +27,8 @@ func main() {
 	switch challengeToRun {
 	case "1":
 		challenge1.Run()
-	//case "2":
-	//	challenge2.Run()
+	case "2":
+		challenge2.Run()
 	case "3":
 		challenge3.Run()
 	case "4":
@@ -62,5 +59,8 @@ func main() {
 		challenge17.Run()
 	case "18":
 		challenge18.Run()
+        case "19":
+		challenge19.Run()
 	}
+
 }

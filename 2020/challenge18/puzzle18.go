@@ -8,7 +8,7 @@ import (
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge18/input.txt")
+	rows := file_utils.OpenFileIntoSlice("challenge18/test_input.txt")
 	partOneSum := 0
 	partTwoSum := 0
 	for _, row := range rows {
