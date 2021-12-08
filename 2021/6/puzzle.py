@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import time
 
 
 @dataclass
@@ -50,10 +51,18 @@ def _count(fishes: list[int], days: int) -> int:
 
 def run():
     with open("./input.txt") as f:
-        # fishes = [Fish(int(l)) for l in f.readline().split(",")]
-        fishes = [int(l) for l in f.readline().split(",")]
-    print(partone(fishes))
-    print(parttwo(fishes))
+        fishes = [Fish(int(l)) for l in f.readline().split(",")]
+        int_fishes = [fish.age for fish in fishes]
+    start = time.time()
+    partone(int_fishes)
+    end = time.time()
+    print(f"optimized solution took: {end - start}")
+
+    start = time.time()
+    partone_naive(fishes)
+    end = time.time()
+    print(f"naive solution took: {end - start}")
+    # print(parttwo(fishes))
 
 
 if __name__ == "__main__":
