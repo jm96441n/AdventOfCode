@@ -21,9 +21,7 @@ def _weighted_sum_of_distance_from_point(input: list[int], point: int) -> int:
 
 
 def get_distance(input: list[int], dist_calc: callable) -> int:
-    max_p = max(input)
-    min_p = min(input)
-    pos = (max_p + min_p) // 2
+    pos = sum(input) // len(input)
     cur_distance = dist_calc(input, pos)
     next_inc = dist_calc(input, pos + 1)
     next_dec = dist_calc(input, pos - 1)
