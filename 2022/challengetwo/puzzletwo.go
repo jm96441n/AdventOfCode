@@ -62,10 +62,6 @@ func partTwo(plays []Pair, scores map[string]int) int {
 
 	score := 0
 	for _, p := range plays {
-		fmt.Println(outcomeVal[p.Me])
-		fmt.Println(wins[p.Me][p.Elf])
-		fmt.Println()
-
 		score += outcomeVal[p.Me] + wins[p.Me][p.Elf]
 	}
 	return score
