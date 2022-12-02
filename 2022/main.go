@@ -1,9 +1,9 @@
 package main
 
 import (
-	"AdventOfCode/2022/challengeone"
+	"AdventOfCode/2022/challengetwo"
 )
 
 func main() {
-	challengeone.Run()
+    challengetwo.Run()
 }
