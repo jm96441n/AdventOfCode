@@ -7,6 +7,7 @@ files=(
   "input.txt"
   "test_input.txt"
   "puzzle${1}.go"
+  "puzle${1}_test.go"
 )
 
 for file in "${files[@]}"
@@ -18,11 +19,44 @@ echo "package main
 
 import (
 	\"AdventOfCode/2022/$directory\"
+        \"log\"
 )
 
 func main() {
-    $directory.Run()
+    err, res := $directory.Run(\"./$directory/input.txt\")
+    if err != nil {
+        log.Fatal(err)
+    }
+    res.Display()
 }" > ./main.go
+
+
+echo "package $directory
+
+type Result struct {}
+
+func (r Result) Display() {
+    fmt.Println(\"done!\")
+}
+
+func Run(filename string) Result {
+
+}
+" > "$directory/puzzle${1}.go"
+
+
+echo "package ${directory}_test
+
+import (
+	\"testing\"
+)
+
+func TestRunPartOne(t *testing.T) {
+
+}
+func TestRunPartTwo(t *testing.T) {
+
+}" > "./$directory/puzzle${1}_test.go"
 
 
 echo "package $directory
