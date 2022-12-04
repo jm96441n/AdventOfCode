@@ -52,10 +52,10 @@ import (
 )
 
 func TestRunPartOne(t *testing.T) {
-
+    res, err := $directory.Run(\"./test_input.txt\")
 }
 func TestRunPartTwo(t *testing.T) {
-
+    res, err := $directory.Run(\"./test_input.txt\")
 }" > "./$directory/puzzle${1}_test.go"
 
 
