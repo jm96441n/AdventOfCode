@@ -7,7 +7,7 @@ files=(
   "input.txt"
   "test_input.txt"
   "puzzle${1}.go"
-  "puzle${1}_test.go"
+  "puzzle${1}_test.go"
 )
 
 for file in "${files[@]}"
@@ -23,7 +23,7 @@ import (
 )
 
 func main() {
-    err, res := $directory.Run(\"./$directory/input.txt\")
+    res, err := $directory.Run(\"./$directory/input.txt\")
     if err != nil {
         log.Fatal(err)
     }
@@ -39,10 +39,10 @@ func (r Result) Display() {
     fmt.Println(\"done!\")
 }
 
-func Run(filename string) Result {
-
+func Run(filename string) (Result, error) {
+    return Result{}, nil
 }
-" > "$directory/puzzle${1}.go"
+" > "./$directory/puzzle${1}.go"
 
 
 echo "package ${directory}_test
@@ -59,9 +59,6 @@ func TestRunPartTwo(t *testing.T) {
 }" > "./$directory/puzzle${1}_test.go"
 
 
-echo "package $directory
 
-func Run() {
-
-}
-" > "$directory/puzzle${1}.go"
+day=$(($(ls | wc -l) - 3))
+curl --cookie $COOKIE https://adventofcode.com/2022/day/$day/input > ./$directory/input.txt

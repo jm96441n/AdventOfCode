@@ -1,12 +1,12 @@
 package main
 
 import (
-	"AdventOfCode/2022/challengefour"
+	"AdventOfCode/2022/challengefive"
 	"log"
 )
 
 func main() {
-	res, err := challengefour.Run("./challengefour/input.txt")
+	res, err := challengefive.Run("./challengefive/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
