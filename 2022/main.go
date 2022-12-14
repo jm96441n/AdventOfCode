@@ -2,13 +2,20 @@ package main
 
 import (
 	"AdventOfCode/2022/challengeseven"
-        "log"
+	"fmt"
+	"log"
+	"os"
 )
 
 func main() {
-    res, err := challengeseven.Run("./challengeseven/input.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    res.Display()
+	curDir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	res, err := challengeseven.Run(fmt.Sprintf("%s/challengeseven/input.txt", curDir))
+	if err != nil {
+		log.Fatal(err)
+	}
+	res.Display()
 }
