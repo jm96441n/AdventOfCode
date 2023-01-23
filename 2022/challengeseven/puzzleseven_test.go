@@ -22,7 +22,7 @@ func TestRunPartTwo(t *testing.T) {
 		t.Error(err)
 	}
 
-	if res.PartOne != 24933642 {
+	if res.PartTwo != 24933642 {
 		t.Errorf("Expected: 24933642, Got %d", res.PartTwo)
 	}
 }

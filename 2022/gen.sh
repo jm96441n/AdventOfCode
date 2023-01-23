@@ -33,10 +33,13 @@ func main() {
 
 echo "package $directory
 
-type Result struct {}
+type Result struct {
+    PartOne int
+    PartTwo int
+}
 
 func (r Result) Display() {
-    fmt.Println(\"done!\")
+    fmt.Printf(\"PartOne: %d\nPartTwo: %d\n\", r.PartOne, r.PartTwo)
 }
 
 func Run(filename string) (Result, error) {
@@ -48,14 +51,30 @@ func Run(filename string) (Result, error) {
 echo "package ${directory}_test
 
 import (
+
+	\"AdventOfCode/2022/${directory}\"
 	\"testing\"
 )
 
 func TestRunPartOne(t *testing.T) {
-    res, err := $directory.Run(\"./test_input.txt\")
+        res, err := $directory.Run(\"./test_input.txt\")
+	if err != nil {
+		t.Error(err)
+	}
+	if res.PartOne != 0 {
+		t.Errorf(\"Expected: 0, Got: %d\", res.PartOne)
+	}
+
 }
 func TestRunPartTwo(t *testing.T) {
-    res, err := $directory.Run(\"./test_input.txt\")
+        res, err := $directory.Run(\"./test_input.txt\")
+	if err != nil {
+		t.Error(err)
+	}
+	if res.PartTwo != 0 {
+		t.Errorf(\"Expected: 0, Got: %d\", res.PartTwo)
+	}
+
 }" > "./$directory/puzzle${1}_test.go"
 
 
