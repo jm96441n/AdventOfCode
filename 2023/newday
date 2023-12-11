@@ -1,0 +1,38 @@
+#! /bin/bash
+
+if [[ -z "$1" ]]; then
+    echo "You must provide a day"
+    exit 1
+fi
+
+mkdir -p "./day$1"
+
+touch "./day$1/solution.py" "./day$1/input.txt" "./day$1/test_input.txt"
+
+echo 'import sys
+
+import ipdb  # type: ignore # noqa
+
+
+def part1(lines: list[str]):
+    pass
+
+
+def part2(lines: list[str]):
+    pass
+
+
+def main():
+    if len(sys.argv) < 2:
+        raise Exception("Must pass an file argument to the invocation")
+
+    filename = sys.argv[1]
+    with open(filename) as f:
+        lines = f.read().splitlines()
+        print(part1(lines))
+        print(part2(lines))
+
+
+if __name__ == "__main__":
+    main()
+' >"./day$1/solution.py"

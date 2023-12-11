@@ -1,14 +1,37 @@
 import sys
-from collections import deque
+from collections import defaultdict
 
 import ipdb  # type: ignore # noqa
 
+NORTH = "up"
+SOUTH = "down"
+EAST = "east"
+WEST = "west"
 
-def part1(lines: list[str]):
-    row_delta = [-1, 0, 1, 0]
-    col_delta = [0, -1, 0, 1]
+DIR_MAPPING = {
+    NORTH: (-1, 0),
+    SOUTH: (1, 0),
+    EAST: (0, 1),
+    WEST: (0, -1),
+}
 
-    lines = [[c for c in line] for line in lines]
+DIR_SYM_MAPPING = {
+    (NORTH, "|"): NORTH,
+    (NORTH, "7"): WEST,
+    (NORTH, "F"): EAST,
+    (SOUTH, "|"): SOUTH,
+    (SOUTH, "J"): WEST,
+    (SOUTH, "L"): EAST,
+    (EAST, "-"): EAST,
+    (EAST, "J"): NORTH,
+    (EAST, "7"): SOUTH,
+    (WEST, "-"): WEST,
+    (WEST, "F"): SOUTH,
+    (WEST, "L"): NORTH,
+}
+
+
+def traverse_pipe(lines: list[list[str]]) -> set[tuple[int, int]]:
     start_pos = None
     for i in range(len(lines)):
         for j in range(len(lines[0])):
@@ -18,39 +41,99 @@ def part1(lines: list[str]):
         if start_pos != None:
             break
 
-    next_q = deque([])
-    avail_by_dir = {
-        (-1, 0): set(["|", "7", "F"]),
-        (0, -1): set(["-", "J", "7"]),
-        (1, 0): set(["|", "L", "J"]),
-        (0, 1): set(["-", "7", "L"]),
-    }
-
-    for i in range(len(row_delta)):
-        new_row = row_delta[i] + start_pos[0]
-        new_col = col_delta[i] + start_pos[1]
-        if lines[new_row][new_col] in avail_by_dir[(row_delta[i], col_delta[i])]:
-            next_q.append((new_row, new_col))
-            break
-
     seen = set([start_pos])
-
-    while next_q:
-        cur_pos = next_q.popleft()
+    cur_dir = None
+    # check east
+    if lines[start_pos[0]][start_pos[1] + 1] in set(["-", "7", "J"]):
+        mapping = {
+            "-": EAST,
+            "7": SOUTH,
+            "J": NORTH,
+        }
+        cur_pos = (start_pos[0], start_pos[1] + 1)
+        cur_dir = mapping[lines[cur_pos[0]][cur_pos[1]]]
+    # check west
+    elif lines[start_pos[0]][start_pos[1] - 1] in set(["-", "F", "L"]):
+        mapping = {
+            "-": EAST,
+            "F": SOUTH,
+            "L": NORTH,
+        }
+        cur_pos = (start_pos[0], start_pos[1] - 1)
+        cur_dir = mapping[lines[cur_pos[0]][cur_pos[1]]]
+    # check north
+    elif lines[start_pos[0] - 1][start_pos[1]] in set(["|", "7", "F"]):
+        mapping = {
+            "|": NORTH,
+            "7": WEST,
+            "F": EAST,
+        }
+        cur_pos = (start_pos[0] - 1, start_pos[1])
+        cur_dir = mapping[lines[cur_pos[0]][cur_pos[1]]]
+    # check south
+    elif lines[start_pos[0] + 1][start_pos] in set(["|", "L", "J"]):
+        mapping = {
+            "|": NORTH,
+            "J": WEST,
+            "L": EAST,
+        }
+        cur_pos = (start_pos[0], start_pos[1] - 1)
+        cur_dir = mapping[lines[cur_pos[0]][cur_pos[1]]]
+    print(cur_dir)
+    while cur_pos != start_pos:
         seen.add(cur_pos)
-        if lines[cur_pos[0]][cur_pos[1]] == "-":
-            left_row, left_col = cur_pos[0], cur_pos[1] - 1
-            right_row, right_col = cur_pos[0], cur_pos[1] + 1
-            if lines[left_row][left_col] in set(["-", "7", "J"]):
-                next_q.append((left_row, left_col))
-            elif lines[right_row][right_col] in set(["-", "L", "F"]):
-                next_q.append((left_row, left_col))
+        pos_modifier = DIR_MAPPING[cur_dir]
+        cur_pos = (cur_pos[0] + pos_modifier[0], cur_pos[1] + pos_modifier[1])
+        if cur_pos == start_pos:
+            break
+        cur_sym = lines[cur_pos[0]][cur_pos[1]]
+        cur_dir = DIR_SYM_MAPPING[(cur_dir, cur_sym)]
+    return seen
 
+
+def part1(lines: list[str]):
+    lines = [[c for c in line] for line in lines]
+    seen = traverse_pipe(lines)
     return (len(seen) + 1) // 2
 
 
 def part2(lines: list[str]):
     lines = [[c for c in line] for line in lines]
+    seen = traverse_pipe(lines)
+    inner = 0
+    inside = False
+    mappings = defaultdict(list)
+    for pos in seen:
+        mappings[pos[0]].append(pos)
+
+    for k, v in mappings.items():
+        positions = sorted(v, key=lambda x: x[1])
+        intersections = 0
+        inside = False
+        for idx, pos in enumerate(positions):
+            sym = lines[pos[0]][pos[1]]
+            if sym in set(["|", "S"]):
+                intersections += 2
+            elif sym == "-":
+                intersections += 0
+            elif sym in set(["J", "F"]):
+                intersections -= 1
+            elif sym in set(["7", "L"]):
+                intersections += 1
+
+            if intersections == 2 or intersections == -2:
+                intersections = 0
+                inside = not inside
+
+            if inside:
+                inner += positions[idx + 1][1] - pos[1] - 1
+                x = pos[0]
+                y = pos[1] + 1
+                while y < positions[idx + 1][1]:
+                    lines[x][y] = "I"
+                    y += 1
+
+    return inner
 
 
 def main():
