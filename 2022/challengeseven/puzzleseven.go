@@ -39,7 +39,7 @@ func (f *FileNode) displayTree(depth int) {
 }
 
 func Run(filename string) (Result, error) {
-	instructions := file.OpenFileIntoSlice(filename, file.StringConv)
+	instructions := file.OpenFileIntoStringSlice(filename, file.StringConv)
 	pOne, pTwo := parseInstructions(instructions)
 
 	return Result{PartOne: pOne, PartTwo: pTwo}, nil

@@ -6,7 +6,7 @@ import (
 )
 
 func Run() {
-	sacks := file.OpenFileIntoSlice("./challengethree/input.txt", file.StringConv)
+	sacks := file.OpenFileIntoStringSlice("./challengethree/input.txt", file.StringConv)
 	fmt.Printf("Part One: %d\nPart Two: %d\n", partOne(sacks), partTwo(sacks))
 }
 

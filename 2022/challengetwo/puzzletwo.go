@@ -77,7 +77,7 @@ func Run() {
 		"C": 3,
 	}
 
-	vals := file.OpenFileIntoSlice("./challengetwo/input.txt", file.StringConv)
+	vals := file.OpenFileIntoStringSlice("./challengetwo/input.txt", file.StringConv)
 	plays := make([]Pair, 0)
 	for _, v := range vals {
 		plays = append(plays, Pair{Elf: string(v[0]), Me: string(v[len(v)-1])})

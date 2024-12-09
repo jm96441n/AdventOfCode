@@ -1,7 +1,7 @@
 package challenge17
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strings"
 )
@@ -15,7 +15,7 @@ var (
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge17/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge17/input.txt")
 	fmt.Println(run3DBootCycle(rows))
 	fmt.Println(run4DBootCycle(rows))
 }

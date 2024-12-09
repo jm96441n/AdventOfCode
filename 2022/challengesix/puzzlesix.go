@@ -15,7 +15,7 @@ func (r Result) Display() {
 }
 
 func Run(filename string) (Result, error) {
-	ins := file.OpenFileIntoSlice(filename, file.StringConv)
+	ins := file.OpenFileIntoStringSlice(filename, file.StringConv)
 	input := ins[0]
 	res := Result{
 		PartOne: idxOfRun(input, 4),

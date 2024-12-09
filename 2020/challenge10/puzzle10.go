@@ -1,13 +1,13 @@
 package challenge10
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"sort"
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoIntSlice("challenge10/input.txt")
+	rows := utils.OpenFileIntoIntSlice("challenge10/input.txt")
 	sort.Ints(rows)
 	fmt.Println(productOfOnesAndThrees(rows))
 	fmt.Println(combinations(rows))

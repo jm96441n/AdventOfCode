@@ -16,7 +16,7 @@ func (r Result) Display() {
 }
 
 func Run(filename string) (Result, error) {
-	treeRows := file.OpenFileIntoSlice(filename, file.StringConv)
+	treeRows := file.OpenFileIntoStringSlice(filename, file.StringConv)
 	trees := make([][]int, len(treeRows))
 	for idx, row := range treeRows {
 		trees[idx] = make([]int, len(row))

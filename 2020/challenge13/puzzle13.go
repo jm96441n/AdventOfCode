@@ -1,14 +1,14 @@
 package challenge13
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge13/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge13/input.txt")
 	earliestTime, err := strconv.Atoi(rows[0])
 	if err != nil {
 		panic(err)

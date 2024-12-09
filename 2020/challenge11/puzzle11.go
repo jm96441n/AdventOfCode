@@ -1,7 +1,7 @@
 package challenge11
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strings"
 )
@@ -26,7 +26,7 @@ type adjacentPositionFn func(pos position) position
 type occupiedFn func(posFunc adjacentPositionFn, curPos position, rows [][]string) bool
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge11/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge11/input.txt")
 	splitRows := make([][]string, len(rows))
 	for idx, row := range rows {
 		splitRows[idx] = strings.Split(row, "")

@@ -1,7 +1,7 @@
 package challenge7
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strings"
 )
@@ -9,7 +9,7 @@ import (
 var goldBag string = "shiny gold"
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("./challenge7/input.txt")
+	rows := utils.OpenFileIntoStringSlice("./challenge7/input.txt")
 	colorMap := make(map[string]*node)
 	trees := buildTrees(rows, colorMap)
 	countShinys := 0

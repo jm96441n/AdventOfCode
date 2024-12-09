@@ -1,14 +1,14 @@
 package challenge18
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge18/test_input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge18/test_input.txt")
 	partOneSum := 0
 	partTwoSum := 0
 	for _, row := range rows {

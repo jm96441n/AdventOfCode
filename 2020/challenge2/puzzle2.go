@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 )
 
 type PasswordValidation struct {
@@ -18,7 +18,7 @@ type PasswordValidation struct {
 }
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("./challenge2/input.txt")
+	rows := utils.OpenFileIntoStringSlice("./challenge2/input.txt")
 
 	allSplits := buildSplits(rows)
 	partOneCount := partOne(allSplits)

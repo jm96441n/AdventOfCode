@@ -5,9 +5,58 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
-func OpenFileIntoSlice(fileName string) []string {
+type sliceEle interface {
+	string | int | []int
+}
+
+func OpenFileIntoSlice[T sliceEle](fileName string, conv func(string) T) []T {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+
+	rows := make([]T, 0)
+	for scanner.Scan() {
+		rows = append(rows, conv(scanner.Text()))
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return rows
+}
+
+func StringConv(s string) string {
+	return s
+}
+
+func IntConv(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return i
+}
+
+func IntRowConv(s string) []int {
+	splits := strings.Fields(s)
+	intRow := make([]int, 0, len(splits))
+	for _, split := range splits {
+		i, err := strconv.Atoi(split)
+		if err != nil {
+			log.Fatal(err)
+		}
+		intRow = append(intRow, i)
+	}
+	return intRow
+}
+
+func OpenFileIntoStringSlice(fileName string) []string {
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)

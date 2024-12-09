@@ -52,7 +52,7 @@ type ElfPair struct {
 }
 
 func Run(filename string) (Result, error) {
-	input := file.OpenFileIntoSlice(filename, file.StringConv)
+	input := file.OpenFileIntoStringSlice(filename, file.StringConv)
 	pairs := make([]ElfPair, len(input))
 	for i, work := range input {
 		elfs := strings.Split(work, ",")

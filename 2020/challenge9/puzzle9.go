@@ -2,7 +2,7 @@ package challenge9
 
 import (
 	"AdventOfCode/2020/challenge1"
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strconv"
 )
@@ -10,7 +10,7 @@ import (
 var preambleLen int = 25
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("./challenge9/input.txt")
+	rows := utils.OpenFileIntoStringSlice("./challenge9/input.txt")
 	intRows := make([]int, len(rows))
 	for idx, num := range rows {
 		intRow, err := strconv.Atoi(num)

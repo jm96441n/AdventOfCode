@@ -21,7 +21,7 @@ type Move struct {
 }
 
 func Run(filename string) (Result, error) {
-	ins := file.OpenFileIntoSlice(filename, file.StringConv)
+	ins := file.OpenFileIntoStringSlice(filename, file.StringConv)
 	numStacks := ((len(ins[0]) + 1) / 4)
 	stacksOne := make([]string, numStacks)
 	stacksTwo := make([]string, numStacks)

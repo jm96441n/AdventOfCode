@@ -1,7 +1,7 @@
 package challenge16
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -30,7 +30,7 @@ func (r *rule) validValue(val int) bool {
 }
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge16/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge16/input.txt")
 	myTicket, otherTickets, rules := parseRows(rows)
 	sum, validTickets := sumInvalidTickets(otherTickets, rules)
 	fmt.Println(sum)

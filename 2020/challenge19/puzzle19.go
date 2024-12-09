@@ -2,7 +2,7 @@
 package challenge19
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"strings"
 )
@@ -20,7 +20,7 @@ func Run() int {
 }
 
 func getRulesAndPotentialMatches() (map[string]string, []string) {
-    rows := file_utils.OpenFileIntoSlice("./challenge19/test_input.txt")
+    rows := utils.OpenFileIntoStringSlice("./challenge19/test_input.txt")
     rules := make(map[string]string)
     potentialMatches := make([]string, 0)
     inRules := true

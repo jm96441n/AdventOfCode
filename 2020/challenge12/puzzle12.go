@@ -1,7 +1,7 @@
 package challenge12
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -36,7 +36,7 @@ var (
 )
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge12/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge12/input.txt")
 	formattedRows := formatRows(rows)
 	for _, runner := range []courseRunner{runTheCoursePartOne, runTheCoursePartTwo} {
 		fmt.Println(calculateManhattanDistance(formattedRows, runner))

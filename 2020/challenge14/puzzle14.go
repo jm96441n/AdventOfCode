@@ -1,7 +1,7 @@
 package challenge14
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"math"
 	"regexp"
@@ -12,7 +12,7 @@ import (
 var digitRegex = regexp.MustCompile("\\d+")
 
 func Run() {
-	rows := file_utils.OpenFileIntoSlice("challenge14/input.txt")
+	rows := utils.OpenFileIntoStringSlice("challenge14/input.txt")
 	fmt.Println(partOne(rows))
 	fmt.Println(partTwo(rows))
 }

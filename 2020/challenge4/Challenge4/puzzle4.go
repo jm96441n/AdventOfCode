@@ -1,7 +1,7 @@
 package challenge4
 
 import (
-	"AdventOfCode/file_utils"
+	"AdventOfCode/utils"
 	"fmt"
 	"log"
 	"regexp"
@@ -25,7 +25,7 @@ func Run() {
 }
 
 func buildPassportRows() []string {
-	rows := file_utils.OpenFileIntoSlice("./challenge4/input.txt")
+	rows := utils.OpenFileIntoStringSlice("./challenge4/input.txt")
 	formattedRows := make([]string, 0)
 	inRow := false
 	acc := ""

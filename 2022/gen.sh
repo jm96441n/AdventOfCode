@@ -80,4 +80,4 @@ func TestRunPartTwo(t *testing.T) {
 
 
 day=$(($(ls | wc -l) - 3))
-curl --cookie $COOKIE https://adventofcode.com/2022/day/$day/input > ./$directory/input.txt
+curl --cookie $COOKIE https://adventofcode.com/2023/day/$day/input > ./$directory/input.txt
