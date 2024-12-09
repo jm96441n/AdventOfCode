@@ -77,5 +77,5 @@ func TestRunPartTwo(t *testing.T) {
 
 }" >"./$directory/puzzle${1}_test.go"
 
-day=$(($(ls | wc -l) - 3))
+day=$(($(ls ./2024 | wc -l) - 1))
 curl --cookie $COOKIE https://adventofcode.com/2024/day/$day/input >./$directory/input.txt
