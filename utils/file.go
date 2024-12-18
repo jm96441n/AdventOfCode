@@ -31,6 +31,17 @@ func OpenFileIntoSlice[T sliceEle](fileName string, conv func(string) T) []T {
 	return rows
 }
 
+func OpenFileIntoString(filename string) string {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	scanner.Scan()
+	return scanner.Text()
+}
+
 func StringConv(s string) string {
 	return s
 }

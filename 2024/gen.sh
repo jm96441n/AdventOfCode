@@ -61,8 +61,11 @@ func TestRunPartOne(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if res.PartOne != 0 {
-		t.Errorf(\"Expected: 0, Got: %d\", res.PartOne)
+
+  expected := 0
+
+	if res.PartOne != expected {
+		t.Errorf(\"Expected: %d, Got: %d\", expected, res.PartOne)
 	}
 
 }
@@ -71,8 +74,11 @@ func TestRunPartTwo(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if res.PartTwo != 0 {
-		t.Errorf(\"Expected: 0, Got: %d\", res.PartTwo)
+
+  expected := 0
+
+	if res.PartTwo != expected {
+		t.Errorf(\"Expected: %d, Got: %d\", expected, res.PartTwo)
 	}
 
 }" >"./$directory/puzzle${1}_test.go"
