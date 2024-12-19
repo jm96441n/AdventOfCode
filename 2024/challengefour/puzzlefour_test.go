@@ -24,7 +24,7 @@ func TestRunPartTwo(t *testing.T) {
 		t.Error(err)
 	}
 
-	expected := 0
+	expected := 9
 
 	if res.PartTwo != expected {
 		t.Errorf("Expected: %d, Got: %d", expected, res.PartTwo)

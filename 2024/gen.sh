@@ -23,11 +23,11 @@ import (
 )
 
 func main() {
-    res, err := $packageName.Run(\"./$directory/input.txt\")
-    if err != nil {
-        log.Fatal(err)
-    }
-    res.Display()
+  res, err := $packageName.Run(\"./$directory/input.txt\")
+  if err != nil {
+    log.Fatal(err)
+  }
+  res.Display()
 }" >./main.go
 
 echo -E "package $packageName
