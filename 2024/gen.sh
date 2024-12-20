@@ -4,6 +4,12 @@ directory="2024/challenge${1}"
 packageName="challenge${1}"
 mkdir -p "$directory"
 
+# error if the COOKIE variable is empty
+if [[ -z "$COOKIE" ]]; then
+  echo "Set cookie env variable" 
+  exit 1
+fi
+
 files=(
   "input.txt"
   "test_input.txt"
