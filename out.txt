@@ -1,0 +1,1 @@
+ok  	AdventOfCode/2025/challengetwo	0.002s

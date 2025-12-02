@@ -8,11 +8,7 @@ import (
 	"strings"
 )
 
-type sliceEle interface {
-	string | int | []int
-}
-
-func OpenFileIntoSlice[T sliceEle](fileName string, conv func(string) T) []T {
+func OpenFileIntoSlice[T any](fileName string, conv func(string) T) []T {
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
