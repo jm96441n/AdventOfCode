@@ -1,23 +1,22 @@
 package main
 
 import (
-	"flag"
-	"log"
-
-	"AdventOfCode/2025/challengetwo"
+	"AdventOfCode/2025/challengethree"
+  "flag"
+  "log"
 )
 
 func main() {
 	var isTest bool
 	flag.BoolVar(&isTest, "test", false, "run test input")
 	flag.Parse()
-	inputFile := "./2025/challengetwo/input.txt"
+	inputFile := "./2025/challengethree/input.txt"
 	if isTest {
-		inputFile = "./2025/challengetwo/test_input.txt"
+		inputFile = "./2025/challengethree/test_input.txt"
 	}
-	res, err := challengetwo.Run(inputFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	res.Display()
+  res, err := challengethree.Run(inputFile)
+  if err != nil {
+    log.Fatal(err)
+  }
+  res.Display()
 }
