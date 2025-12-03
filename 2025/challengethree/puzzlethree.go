@@ -2,6 +2,7 @@ package challengethree
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -88,13 +89,11 @@ func maxWithIdx(digits []int) (int, int) {
 }
 
 func convToNumber(d []int) int {
-	b := make([]string, 0, len(d))
-	for _, v := range d {
-		b = append(b, strconv.Itoa(v))
+	n := 0
+	slices.Reverse(d)
+	for idx, i := range d {
+		n += i * utils.IntPow(10, idx)
 	}
-	i, err := strconv.Atoi(strings.Join(b, ""))
-	if err != nil {
-		panic(fmt.Sprintf("not a number: %s", b))
-	}
-	return i
+
+	return n
 }
