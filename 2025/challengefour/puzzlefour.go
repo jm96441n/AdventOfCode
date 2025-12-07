@@ -1,11 +1,9 @@
 package challengefour
 
 import (
+	"AdventOfCode/utils"
 	"fmt"
 	"iter"
-	"strings"
-
-	"AdventOfCode/utils"
 )
 
 type Result struct {
@@ -17,12 +15,8 @@ func (r Result) Display() {
 	fmt.Printf("PartOne: %d\nPartTwo: %d\n", r.PartOne, r.PartTwo)
 }
 
-func stringSliceConv(s string) []string {
-	return strings.Split(s, "")
-}
-
 func Run(filename string) (Result, error) {
-	warehouse := utils.OpenFileIntoSlice(filename, stringSliceConv)
+	warehouse := utils.OpenFileIntoSlice(filename, utils.StringRowConv(""))
 	return Result{
 		PartOne: partOne(warehouse),
 		PartTwo: partTwo(warehouse),

@@ -42,6 +42,12 @@ func StringConv(s string) string {
 	return s
 }
 
+func StringRowConv(sep string) func(s string) []string {
+	return func(s string) []string {
+		return strings.Split(s, sep)
+	}
+}
+
 func IntConv(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
