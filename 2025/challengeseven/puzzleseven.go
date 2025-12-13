@@ -65,5 +65,35 @@ func partOne(rows [][]string) int {
 
 func partTwo(rows [][]string) int {
 	// DFS this time around
-	return 0
+
+	var start position
+	for i := range len(rows[0]) {
+		if rows[0][i] == "S" {
+			start = position{0, i}
+		}
+	}
+
+	seen := make(map[position]int)
+	var dfs func(row, col int) int
+
+	dfs = func(row, col int) int {
+		if row >= len(rows) {
+			return 1
+		}
+
+		if val, ok := seen[position{row, col}]; ok {
+			return val
+		}
+
+		if rows[row][col] == "^" {
+			left := dfs(row, col-1)
+			right := dfs(row, col+1)
+			seen[position{row, col}] = left + right
+			return left + right
+		}
+
+		return dfs(row+1, col)
+	}
+
+	return dfs(start.row, start.col)
 }
